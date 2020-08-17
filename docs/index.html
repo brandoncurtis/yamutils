@@ -16,22 +16,29 @@
 <div>
   <p>current mainnet block: <span id="blocknumber"></span></p>
   <p>provided address: <span id="address"></span></p>
-  <p>token address: <span id="tokenaddress"></span></p>
-  <p>token decimals: <span id="decimals"></span></p>
-  <p>YAM balance, raw: <span id="rawbalance"></span></p>
-  <p>YAM balance: <span id="balance"></span></p>
-  <p>OG YAM decimals: <span id="ogdecimals"></span></p>
-  <p>OG YAM (unrebased) balance, raw: <span id="ograwbalance"></span></p>
+  <p>YAM token address: <span id="tokenaddress"></span></p>
+  <p style="display:none">YAM token decimals: <span id="decimals"></span></p>
+  <p style="display:none">YAM balance, raw: <span id="rawbalance"></span></p>
+  <p>current YAM balance: <span id="balance"></span></p>
+  <p style="display:none">OG YAM decimals: <span id="ogdecimals"></span></p>
+  <p style="display:none">OG YAM (unrebased) balance, raw: <span id="ograwbalance"></span></p>
   <p>OG YAM (unrebased) balance: <span id="ogbalance"></span></p>
+  <p>current ratio: <span id="ogratio"></span> YAM = 1 OG YAM</p>
 
-<h1>WTF is going on</h1>
-  <p>If you were in the vote delegation snapshot, your vote balance was your OG YAM balance at that time.</p>
+<h1>How many YAMv2 will I get?</h1>
   <p>Your YAMv2 balance will be the your OG YAM balance.</p>
+  <p>YAM that you buy today can be converted to YAMv2 at the current ratio.</p>
+  <p>The current ratio will change with rebasing, but your OG balance will not.<p>
   <p>There will be a maximum of 5,000,000 OG YAMs and 5,000,000 YAMv2.</p>
+
+<h1>What about voting?</h1>
+  <p>If you were in the vote delegation snapshot, your vote balance was your OG YAM balance at the time that voting occurred.</p>
+
+<h1>Explore YAM Finance</h1>
   <p>Learn more at <a href="https://yam.chainwiki.dev">YAMwiki</a></p>
   <p>Brought to you by Brandon Curtis.</p>
   <p>Contribute YAMs: 0x6Bd5Fe9B3ac668A7a5cb44f8891039566b745aF8</p>
-  <p>Don't get scammed.</p>
+  <p>Don't get YAM scammed.</p>
 </div>
 
 
@@ -59,13 +66,15 @@ function connect() {
   const decimalPromise = contract.decimals();
   const ogBalancePromise = contract.balanceOfUnderlying(userAddress);
   const ogDecimalPromise = contract.internalDecimals();
+  const yamsScalingPromise = contract.yamsScalingFactor();
 
   var allPromises = Promise.all([
     blocknumberPromise,
     balancePromise,
     decimalPromise,
     ogBalancePromise,
-    ogDecimalPromise
+    ogDecimalPromise,
+    yamsScalingPromise
   ]);
 
   // once queries resolve, do updates
@@ -79,9 +88,12 @@ function connect() {
     const decimals = results[2];
     //const balance = rawbalance.div(ethers.BigNumber.from(10).pow(decimals));
     const ograwbalance = results[3];
+    const ogscaling = results[5];
+
     const ogdecimals = 24;
     const balance = ethers.utils.formatUnits(rawbalance,decimals);
     const ogbalance = ethers.utils.formatUnits(ograwbalance,ogdecimals);
+    const ogratio = ethers.utils.formatUnits(ogscaling,decimals);
 
     // now update what's displayed
     document.getElementById("blocknumber").innerHTML = blocknumber;
@@ -93,6 +105,7 @@ function connect() {
     document.getElementById("ogdecimals").innerHTML = ogdecimals;
     document.getElementById("ograwbalance").innerHTML = ograwbalance;
     document.getElementById("ogbalance").innerHTML = ogbalance;
+    document.getElementById("ogratio").innerHTML = ogratio;
   });
 
 }
