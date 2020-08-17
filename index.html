@@ -1,0 +1,103 @@
+<head>
+<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript">
+</script>
+</head>
+
+<body>
+<h1>Hello YAM FAM</h1>
+
+
+<form action="javascript:connect()">
+  Enter your address: <input type="text">
+  <input type="submit" value="Get OG YAM Balance">
+</form>
+
+
+<div>
+  <p>current mainnet block: <span id="blocknumber"></span></p>
+  <p>provided address: <span id="address"></span></p>
+  <p>token address: <span id="tokenaddress"></span></p>
+  <p>token decimals: <span id="decimals"></span></p>
+  <p>YAM balance, raw: <span id="rawbalance"></span></p>
+  <p>YAM balance: <span id="balance"></span></p>
+  <p>OG YAM decimals: <span id="ogdecimals"></span></p>
+  <p>OG YAM (unrebased) balance, raw: <span id="ograwbalance"></span></p>
+  <p>OG YAM (unrebased) balance: <span id="ogbalance"></span></p>
+
+<h1>WTF is going on</h1>
+  <p>If you were in the vote delegation snapshot, your vote balance was your OG YAM balance at that time.</p>
+  <p>Your YAMv2 balance will be the your OG YAM balance.</p>
+  <p>There will be a maximum of 5,000,000 OG YAMs.</p>
+  <p>Learn more at <a href="https://yam.chainwiki.dev">YAMwiki</a></p>
+  <p>Brought to you by Brandon Curtis.</p>
+  <p>Contribute YAMs: 0x6Bd5Fe9B3ac668A7a5cb44f8891039566b745aF8</p>
+  <p>Don't get scammed.</p>
+</div>
+
+
+
+
+
+<script>
+function connect() {
+  //const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const userAddress = document.forms[0].elements[0].value
+
+  //ethers.BigNumber.config(44);
+  const network = "homestead";
+  const provider = ethers.getDefaultProvider(network, {
+    infura: "f43ef2d4db0d42c9b0f2b7f8fa5aaae7",
+    });
+
+  const tokenABI = '[{"inputs":[{"internalType":"string","name":"name_","type":"string"},{"internalType":"string","name":"symbol_","type":"string"},{"internalType":"uint8","name":"decimals_","type":"uint8"},{"internalType":"uint256","name":"initSupply_","type":"uint256"},{"internalType":"address","name":"implementation_","type":"address"},{"internalType":"bytes","name":"becomeImplementationData","type":"bytes"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"delegator","type":"address"},{"indexed":true,"internalType":"address","name":"fromDelegate","type":"address"},{"indexed":true,"internalType":"address","name":"toDelegate","type":"address"}],"name":"DelegateChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"delegate","type":"address"},{"indexed":false,"internalType":"uint256","name":"previousBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"}],"name":"DelegateVotesChanged","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"oldGov","type":"address"},{"indexed":false,"internalType":"address","name":"newGov","type":"address"}],"name":"NewGov","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"oldImplementation","type":"address"},{"indexed":false,"internalType":"address","name":"newImplementation","type":"address"}],"name":"NewImplementation","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"oldIncentivizer","type":"address"},{"indexed":false,"internalType":"address","name":"newIncentivizer","type":"address"}],"name":"NewIncentivizer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"oldPendingGov","type":"address"},{"indexed":false,"internalType":"address","name":"newPendingGov","type":"address"}],"name":"NewPendingGov","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"oldRebaser","type":"address"},{"indexed":false,"internalType":"address","name":"newRebaser","type":"address"}],"name":"NewRebaser","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"epoch","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"prevYamsScalingFactor","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newYamsScalingFactor","type":"uint256"}],"name":"Rebase","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Transfer","type":"event"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":true,"inputs":[],"name":"BASE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"DELEGATION_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"DOMAIN_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"_acceptGov","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"implementation_","type":"address"},{"internalType":"bool","name":"allowResign","type":"bool"},{"internalType":"bytes","name":"becomeImplementationData","type":"bytes"}],"name":"_setImplementation","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"incentivizer_","type":"address"}],"name":"_setIncentivizer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"newPendingGov","type":"address"}],"name":"_setPendingGov","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"rebaser_","type":"address"}],"name":"_setRebaser","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"balanceOfUnderlying","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint32","name":"","type":"uint32"}],"name":"checkpoints","outputs":[{"internalType":"uint32","name":"fromBlock","type":"uint32"},{"internalType":"uint256","name":"votes","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"delegatee","type":"address"}],"name":"delegate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"delegatee","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"delegateBySig","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes","name":"data","type":"bytes"}],"name":"delegateToImplementation","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"bytes","name":"data","type":"bytes"}],"name":"delegateToViewImplementation","outputs":[{"internalType":"bytes","name":"","type":"bytes"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"delegator","type":"address"}],"name":"delegates","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getCurrentVotes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"blockNumber","type":"uint256"}],"name":"getPriorVotes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"gov","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"implementation","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"incentivizer","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"initSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"internalDecimals","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxScalingFactor","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"mintAmount","type":"uint256"}],"name":"mint","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"numCheckpoints","outputs":[{"internalType":"uint32","name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"pendingGov","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"epoch","type":"uint256"},{"internalType":"uint256","name":"indexDelta","type":"uint256"},{"internalType":"bool","name":"positive","type":"bool"}],"name":"rebase","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"rebaser","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"src","type":"address"},{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"yamsScalingFactor","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]';
+  const tokenAddress = '0x0e2298E3B3390e3b945a5456fBf59eCc3f55DA16';
+  const contract = new ethers.Contract(tokenAddress, tokenABI, provider);
+
+  // do queries
+  const blocknumberPromise = provider.getBlockNumber();
+  const balancePromise = contract.balanceOf(userAddress);
+  const decimalPromise = contract.decimals();
+  const ogBalancePromise = contract.balanceOfUnderlying(userAddress);
+  const ogDecimalPromise = contract.internalDecimals();
+
+  var allPromises = Promise.all([
+    blocknumberPromise,
+    balancePromise,
+    decimalPromise,
+    ogBalancePromise,
+    ogDecimalPromise
+  ]);
+
+  // once queries resolve, do updates
+  var lookupPromise = allPromises.then(function(results) {
+
+    // calculate the stuff we need
+    const blocknumber = results[0];
+    //const rawbalance = ethers.BigNumber.from(results[1]);
+    const rawbalance = results[1];
+    //const decimals = ethers.BigNumber.from(results[2]);
+    const decimals = results[2];
+    //const balance = rawbalance.div(ethers.BigNumber.from(10).pow(decimals));
+    const ograwbalance = results[3];
+    const ogdecimals = 24;
+    const balance = ethers.utils.formatUnits(rawbalance,decimals);
+    const ogbalance = ethers.utils.formatUnits(ograwbalance,ogdecimals);
+
+    // now update what's displayed
+    document.getElementById("blocknumber").innerHTML = blocknumber;
+    document.getElementById("address").innerHTML = userAddress;
+    document.getElementById("tokenaddress").innerHTML = tokenAddress;
+    document.getElementById("decimals").innerHTML = decimals;
+    document.getElementById("rawbalance").innerHTML = rawbalance;
+    document.getElementById("balance").innerHTML = balance;
+    document.getElementById("ogdecimals").innerHTML = ogdecimals;
+    document.getElementById("ograwbalance").innerHTML = ograwbalance;
+    document.getElementById("ogbalance").innerHTML = ogbalance;
+  });
+
+}
+</script>
+
+
+
+
